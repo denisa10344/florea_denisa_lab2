@@ -1,4 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("florea_denisa_lab2Context") ?? throw new InvalidOperationException("Connection string 'florea_denisa_lab2Context' not found.");
+
+builder.Services.AddDbContext<florea_denisa_lab2Context>(options => options.UseSqlServer(connectionString));
 
 // Add services to the container.
 builder.Services.AddRazorPages();
