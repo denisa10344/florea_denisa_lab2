@@ -8,4 +8,7 @@ public class florea_denisa_lab2Context(DbContextOptions<florea_denisa_lab2Contex
 
     public DbSet<florea_denisa_lab2.Models.Author> Author { get; set; } = default!;
     public DbSet<florea_denisa_lab2.Models.Category> Category { get; set; } = default!;
+    public DbSet<florea_denisa_lab2.Models.Member> Member { get; set; } = default!;
+
+    public DbSet<florea_denisa_lab2.Models.Borrowing> Borrowing { get; set; } = default!;
 }

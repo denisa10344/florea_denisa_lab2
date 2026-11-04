@@ -1,8 +1,13 @@
 using Microsoft.EntityFrameworkCore;
+using florea_denisa_lab2.Data;
+using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("florea_denisa_lab2Context") ?? throw new InvalidOperationException("Connection string 'florea_denisa_lab2Context' not found.");
 
 builder.Services.AddDbContext<florea_denisa_lab2Context>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<LibraryIdentityContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<LibraryIdentityContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
