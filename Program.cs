@@ -2,15 +2,29 @@ using Microsoft.EntityFrameworkCore;
 using florea_denisa_lab2.Data;
 using Microsoft.AspNetCore.Identity;
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
 var connectionString = builder.Configuration.GetConnectionString("florea_denisa_lab2Context") ?? throw new InvalidOperationException("Connection string 'florea_denisa_lab2Context' not found.");
 
 builder.Services.AddDbContext<florea_denisa_lab2Context>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDbContext<LibraryIdentityContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<LibraryIdentityContext>();
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+   .AddRoles<IdentityRole>()
+   .AddEntityFrameworkStores<LibraryIdentityContext>();
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Books");
+    options.Conventions.AllowAnonymousToPage("/Books/Index");
+    options.Conventions.AllowAnonymousToPage("/Books/Details");
+    options.Conventions.AuthorizeFolder("/Members", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Publishers", "AdminPolicy");
+    options.Conventions.AuthorizeFolder("/Categories", "AdminPolicy");
+});
 
 var app = builder.Build();
 

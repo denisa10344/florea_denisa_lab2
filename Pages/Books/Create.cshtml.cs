@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using florea_denisa_lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace florea_denisa_lab2.Pages.BookPages;
+
+[Authorize(Roles = "Admin")]
 
 public class CreateModel : BookCategoriesPageModel
 {

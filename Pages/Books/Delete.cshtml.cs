@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using florea_denisa_lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace florea_denisa_lab2.Pages.BookPages;
+
+[Authorize(Roles = "Admin")]
 
 public class DeleteModel : PageModel
 {
